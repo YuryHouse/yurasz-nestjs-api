@@ -1,9 +1,22 @@
 import { Module } from '@nestjs/common';
 import { PostsController } from './posts/posts.controller';
 import { PostsModule } from './posts/posts.module';
+import { ConfigModule } from '@nestjs/config';
+import Joi from '@hapi/joi';
 
 @Module({
-  imports: [PostsModule],
+  imports: [PostsModule, ConfigModule.forRoot(
+    {
+      validationSchema: Joi.object({
+        POSTGRES_HOST: Joi.string().required(),
+        POSTGRES_PORT: Joi.number().required(),
+        POSTGRES_USER: Joi.string().required(),
+        POSTGRES_PASSWORD: Joi.string().required(),
+        POSTGRES_DB: Joi.string().required(),
+        PORT: Joi.number(),
+      })
+    }
+  )],
   controllers: [PostsController],
   providers: [],
 })
