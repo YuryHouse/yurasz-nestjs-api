@@ -20,7 +20,7 @@ export class PostsService {
   }
 
   async getPostById(id: number) {
-    const post = await this.postsRepository.findOneBy({ id });
+    const post = await this.postsRepository.findOne({ where: { id } });
     if (post) {
       return post;
     }
@@ -35,7 +35,7 @@ export class PostsService {
 
   async replacePost(id: number, post: UpdatePostDto) {
     await this.postsRepository.update(id, post);
-    const updatedPost = await this.postsRepository.findOneBy({ id });
+    const updatedPost = await this.postsRepository.findOne({ where: { id } });
     if (updatedPost) {
       return updatedPost;
     }
